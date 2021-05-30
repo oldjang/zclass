@@ -5,7 +5,7 @@ from django.db import models
 class User(models.Model):
     user_id = models.CharField(max_length=256, primary_key=True)
     password = models.CharField(max_length=256)
-    user_nickname = models.CharField(max_length=256)
+    username = models.CharField(max_length=256, default="visitor")
 
 
 class UserInformation(models.Model):
@@ -62,7 +62,7 @@ class BoardInformation(models.Model):
     whiteboard_id = models.CharField(max_length=256, primary_key=True)
     course_id = models.CharField(max_length=256)
     group_id = models.CharField(max_length=256)
-    whiteboard_image = models.CharField(max_length=256,null=True)
+    whiteboard_image = models.CharField(max_length=256, null=True)
 
 
 class CommentInformation(models.Model):

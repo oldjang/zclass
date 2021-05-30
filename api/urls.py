@@ -17,5 +17,7 @@ route.register(r'comment', CommentViewSet)
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view()),
+    url(r'^register/$', RegisterView.as_view()),
+    url(r'^upload/$', UploadView.as_view()),
     url('', include(route.urls)),
 ]
