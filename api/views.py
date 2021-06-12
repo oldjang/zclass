@@ -1,4 +1,5 @@
 import os
+import time
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -19,13 +20,14 @@ class LoginView(APIView):
         print("OK")
         username = request.data.get('username')
         password = request.data.get('password')
-        obj = User.objects.filter(username=username, password=password).first()
-        if not obj:
+        user = User.objects.filter(username=username, password=password).first()
+        if not user:
             ret['code'] = '1001'
             ret['msg'] = '用户名或者密码错误'
             return JsonResponse(ret)
 
         ret['msg'] = '登录成功'
+        ret["userid"] = user.user_id
         return JsonResponse(ret)
 
 
@@ -40,16 +42,16 @@ class RegisterView(APIView):
             ret['msg'] = '用户名已被注册'
             return JsonResponse(ret)
 
-        user = User(username=username, password=password)
+        user = User(username=username, password=password, user_id=str(int(time.time())))
         user.save()
         ret['msg'] = '注册成功'
+        ret["userid"] = user.user_id
         return JsonResponse(ret)
 
 
 class UploadView(APIView):
     def post(self, request):
         ret = {'code': 1000, 'msg': None}
-
         file = request.FILES.get("file", None)
         if not file:
             ret['code'] = '1002'
